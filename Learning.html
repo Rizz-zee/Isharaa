@@ -1,0 +1,103 @@
+<!-- sign-game.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Language Fun Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom right, #003366, #f8f8f8);
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 4px solid #ffcc00;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    .game-modes {
+      margin-top: 2rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .mode-card {
+      background: #ffffffcc;
+      border-radius: 16px;
+      width: 240px;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      text-align: center;
+      cursor: pointer;
+    }
+    .mode-card:hover {
+      transform: scale(1.05);
+    }
+    .mode-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #003366;
+    }
+    .cartoon {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 0.5rem;
+    }
+    footer {
+      margin-top: 2rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🤗 Learn Arabic Sign Language with Fun!</h1>
+  </header>
+
+  <section class="game-modes">
+    <div class="mode-card" onclick="location.href='AlphabetMode.html'">
+      <img src="https://cdn-icons-png.flaticon.com/512/3189/3189865.png" alt="Alphabet Mode" class="cartoon" />
+      <div class="mode-title">Alphabet Mode</div>
+      <p>Learn the Arabic letters one by one using signs.</p>
+    </div>
+
+    <div class="mode-card" onclick="location.href='GuessTheSign.html'">
+      <img src="https://cdn-icons-png.flaticon.com/512/3481/3481374.png" alt="Guess Sign" class="cartoon" />
+      <div class="mode-title">Guess the Sign</div>
+      <p>Can you guess what sign this cartoon is making?</p>
+    </div>
+
+    <div class="mode-card" onclick="location.href='Match.html'">
+      <img src="https://cdn-icons-png.flaticon.com/512/3621/3621392.png" alt="Match Signs" class="cartoon" />
+      <div class="mode-title">Match Signs</div>
+      <p>Match the signs to their meaning by dragging.</p>
+    </div>
+
+    <div class="mode-card" onclick="location.href='Quiz.html'">
+      <img src="https://cdn-icons-png.flaticon.com/512/4287/4287790.png" alt="Sign Quiz" class="cartoon" />
+      <div class="mode-title">Quick Quiz</div>
+      <p>Test your sign language knowledge in 60 seconds!</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 SignSpeak. All rights reserved.
+  </footer>
+</body>
+</html>

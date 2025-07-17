@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لعبة مطابقة الحروف والإشارات</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(to bottom, #0d1a4f, #001F3F);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin: 20px;
+      font-size: 2.5rem;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: #f5f5f5;
+      color: #222;
+      border-radius: 10px;
+      cursor: pointer;
+      perspective: 1000px;
+      height: 100px;
+      position: relative;
+      transition: transform 0.4s;
+    }
+
+    .card-inner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+    }
+
+    .card-front {
+      background-color: #1e90ff;
+      color: white;
+    }
+
+    .card-back {
+      background-color: #fff;
+      transform: rotateY(180deg);
+      color: #000;
+    }
+
+    .card-back img {
+      max-width: 80px;
+      max-height: 80px;
+    }
+
+    #score {
+      font-size: 1.2rem;
+      margin: 10px;
+    }
+
+    #message {
+      margin: 10px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 طابق الحرف مع إشارته</h1>
+  <div id="score">النقاط: <span id="scoreValue">0</span></div>
+  <div id="message"></div>
+  <div id="game-board"></div>
+
+  <script>
+    const letters = [
+      { letter: "ا", image: "alif.jpg" },
+      { letter: "ب", image: "ba.jpg" },
+      { letter: "ت", image: "Taa.jpg" },
+      { letter: "ث", image: "Tha.jpg" },
+      { letter: "ج", image: "Geem.jpg" },
+      { letter: "ح", image: "7a.jpg" },
+      { letter: "خ", image: "5a.jpg" },
+      { letter: "د", image: "dal.jpg" },
+      { letter: "ذ", image: "dhal.jpg" },
+      { letter: "ر", image: "Raa.jpg" },
+      { letter: "ز", image: "Zeen.jpg" },
+      { letter: "س", image: "Seen.jpg" },
+      { letter: "ش", image: "4een.jpg" },
+      { letter: "ص", image: "Sad.jpg" },
+      { letter: "ض", image: "Dad.jpg" },
+      { letter: "ط", image: "Taah.jpg" },
+      { letter: "ظ", image: "Thah.jpg" },
+      { letter: "ع", image: "3.jpg" },
+      { letter: "غ", image: "8.jpg" },
+      { letter: "ف", image: "Faa.jpg" },
+      { letter: "ق", image: "Qaf.jpg" },
+      { letter: "ك", image: "Kaf.jpg" },
+      { letter: "ل", image: "Lam.jpg" },
+      { letter: "م", image: "Meem.jpg" },
+      { letter: "ن", image: "Noon.jpg" },
+      { letter: "هـ", image: "Haa.jpg" },
+      { letter: "و", image: "Waw.jpg" },
+      { letter: "ي", image: "Yaa.jpg" }
+    ];
+
+    let cards = [];
+    let firstCard = null;
+    let secondCard = null;
+    let score = 0;
+
+    function shuffle(array) {
+      return array.sort(() => 0.5 - Math.random());
+    }
+
+    function createBoard() {
+      const board = document.getElementById("game-board");
+      board.innerHTML = ""; // Clear previous board
+      cards = [];
+
+      letters.forEach(item => {
+        cards.push({ type: "letter", value: item.letter, matchId: item.letter });
+        cards.push({ type: "image", value: item.image, matchId: item.letter });
+      });
+
+      shuffle(cards);
+
+      cards.forEach((cardData, index) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.index = index;
+
+        const inner = document.createElement("div");
+        inner.classList.add("card-inner");
+
+        const front = document.createElement("div");
+        front.classList.add("card-front");
+        front.innerText = "?";
+
+        const back = document.createElement("div");
+        back.classList.add("card-back");
+        if (cardData.type === "letter") {
+          back.innerText = cardData.value;
+        } else {
+          const img = document.createElement("img");
+          img.src = cardData.value;
+          back.appendChild(img);
+        }
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+        card.appendChild(inner);
+        board.appendChild(card);
+
+        card.addEventListener("click", () => flipCard(card, cardData));
+      });
+    }
+
+    function flipCard(card, data) {
+      if (card.classList.contains("flipped") || secondCard) return;
+
+      card.classList.add("flipped");
+
+      if (!firstCard) {
+        firstCard = { element: card, data };
+      } else {
+        secondCard = { element: card, data };
+
+        if (firstCard.data.matchId === secondCard.data.matchId) {
+          // match
+          document.getElementById("message").innerText = "✅ ممتاز!";
+          score++;
+          document.getElementById("scoreValue").innerText = score;
+          firstCard = null;
+          secondCard = null;
+        } else {
+          // no match
+          document.getElementById("message").innerText = "❌ حاول مرة أخرى";
+          setTimeout(() => {
+            firstCard.element.classList.remove("flipped");
+            secondCard.element.classList.remove("flipped");
+            firstCard = null;
+            secondCard = null;
+          }, 1000);
+        }
+      }
+    }
+
+    window.onload = createBoard;
+  </script>
+</body>
+</html>

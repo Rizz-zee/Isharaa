@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مترجم لغة الإشارة</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>مترجم لغة الإشارة</h1>
+        <div class="video-box">
+            <img src="{{ url_for('video_feed') }}" alt="كاميرا" />
+        </div>
+        <div class="output">
+            <strong>النص المُترجم:</strong>
+            <p>{{ letters }}</p>
+        </div>
+        <form method="POST" action="{{ url_for('clear_letters') }}">
+            <button type="submit" class="clear-btn">مسح</button>
+        </form>
+    </div>
+</body>
+</html>

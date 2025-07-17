@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تعلم الأبجدية بلغة الإشارة</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(to bottom, #f0f8ff, #e6f0ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #003366;
+      color: white;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.8rem;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    .container {
+      margin-top: 2rem;
+      background: #ffffffee;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      max-width: 700px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .letter {
+      font-size: 6rem;
+      color: #003366;
+      margin-bottom: 1rem;
+    }
+
+    .sign-img {
+      width: 240px;
+      height: 240px;
+      object-fit: contain;
+      border-radius: 1rem;
+      border: 4px dashed #004c99;
+      background-color: #eef6ff;
+      padding: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .speech {
+      background-color: #e0ecff;
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 2px solid #003366;
+      display: inline-block;
+      font-size: 1.2rem;
+      color: #003366;
+      margin-bottom: 1.5rem;
+    }
+
+    .buttons {
+      margin-top: 1rem;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #0055aa;
+      color: white;
+      border: none;
+      border-radius: 0.8rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background-color: #003d80;
+    }
+
+    @media (max-width: 600px) {
+      .letter {
+        font-size: 4rem;
+      }
+
+      .sign-img {
+        width: 180px;
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>🎉 تعلم الأبجدية بلغة الإشارة 🎉</header>
+
+  <div class="container">
+    <div class="letter" id="letter">أ</div>
+    <img id="signImage" src="alif.jpg" alt="صورة الإشارة" class="sign-img" />
+    <div class="speech" id="message">أحسنت! هذا هو حرف الألف 👏</div>
+    <div class="buttons">
+      <button onclick="nextLetter()">🔁 التالي</button>
+    </div>
+  </div>
+
+  <script>
+    const letters = [
+      { arabic: "ا", image: "alif.jpg", message: "أحسنت! هذا هو حرف الألف 👏" },
+      { arabic: "ب", image: "ba.jpg", message: "رائع! هذا حرف الباء 🅱️" },
+      { arabic: "ت", image: "Taa.jpg", message: "ممتاز! هذا حرف التاء 🌟" },
+      { arabic: "ث", image: "Tha.jpg", message: "مذهل! هذا حرف الثاء 🔠" },
+      { arabic: "ج", image: "Geem.jpg", message: "جميل! حرف الجيم 🎈" },
+      { arabic: "ح", image: "7a.jpg", message: "رائع! هذا حرف الحاء 🍃" },
+      { arabic: "خ", image: "5a.jpg", message: "ممتاز! حرف الخاء 🌬️" },
+      { arabic: "د", image: "dal.jpg", message: "أنت رائع! حرف الدال 👌" },
+      { arabic: "ذ", image: "dhal.jpg", message: "جميل! حرف الذال ✨" },
+      { arabic: "ر", image: "Raa.jpg", message: "ممتاز! هذا الراء 🌀" },
+      { arabic: "ز", image: "Zeen.jpg", message: "رائع! حرف الزاي ⚡" },
+      { arabic: "س", image: "Seen.jpg", message: "هائل! حرف السين 🧠" },
+      { arabic: "ش", image: "4een.jpg", message: "شجاع! حرف الشين 🧞" },
+      { arabic: "ص", image: "Sad.jpg", message: "بطل! حرف الصاد 💪" },
+      { arabic: "ض", image: "Dad.jpg", message: "أنت ممتاز! حرف الضاد 🚀" },
+      { arabic: "ط", image: "Taah.jpg", message: "موهوب! حرف الطاء 💡" },
+      { arabic: "ظ", image: "Thah.jpg", message: "أنت نجم! حرف الظاء 🌠" },
+      { arabic: "ع", image: "3.jpg", message: "رائع! حرف العين 👁️" },
+      { arabic: "غ", image: "8.jpg", message: "مميز! حرف الغين 🌊" },
+      { arabic: "ف", image: "Faa.jpg", message: "برافو! حرف الفاء 🐘" },
+      { arabic: "ق", image: "Qaf.jpg", message: "حرف قوي! القاف 🧲" },
+      { arabic: "ك", image: "Kaf.jpg", message: "شجاع! حرف الكاف 🧸" },
+      { arabic: "ل", image: "Lam.jpg", message: "رائع! حرف اللام 🕯️" },
+      { arabic: "م", image: "Meem.jpg", message: "محترف! حرف الميم 🧼" },
+      { arabic: "ن", image: "Noon.jpg", message: "نشيط! حرف النون 🐟" },
+      { arabic: "هـ", image: "Haa.jpg", message: "ذكي! حرف الهاء 🔍" },
+      { arabic: "و", image: "Waw.jpg", message: "مميز! حرف الواو 🧁" },
+      { arabic: "ي", image: "Yaa.jpg", message: "رائع! حرف الياء 🪁" }
+    ];
+
+    let current = 0;
+
+    function showLetter(index) {
+      const l = letters[index];
+      document.getElementById("letter").innerText = l.arabic;
+      document.getElementById("signImage").src = l.image;
+      document.getElementById("message").innerText = l.message;
+    }
+
+    function nextLetter() {
+      current = (current + 1) % letters.length;
+      showLetter(current);
+    }
+
+    showLetter(current);
+  </script>
+</body>
+</html>

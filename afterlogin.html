@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ishara - Choose Feature</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #0b1f4b, #1e3c72);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .header {
+      padding: 25px 40px;
+      font-size: 32px;
+      font-weight: 700;
+      background-color: rgba(0, 0, 0, 0.2);
+      text-shadow: 2px 2px #000;
+    }
+
+    .main-container {
+      text-align: center;
+      padding: 100px 20px 60px;
+    }
+
+    .main-container h2 {
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 60px;
+      color: #f0f0f0;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .feature-card {
+      background-color: #ffffff;
+      color: #0b1f4b;
+      width: 220px;
+      padding: 30px 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      background-color: #f1f1f1;
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .feature-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .main-container {
+        padding-top: 60px;
+      }
+
+      .feature-card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">إشارة</div>
+
+  <div class="main-container">
+    <h2>Choose the feature you want to use</h2>
+
+    <div class="button-container">
+      <div class="feature-card" onclick="location.href='Learning.html'">
+        <div class="feature-icon">📘</div>
+        <div class="feature-title">Learn</div>
+        <div class="feature-desc">Explore letters, words & quizzes to learn sign language easily.</div>
+      </div>
+
+<div class="feature-card" onclick="location.href='http://127.0.0.1:5000/'">
+        <div class="feature-icon">🧠</div>
+        <div class="feature-title">Translate</div>
+        <div class="feature-desc">Use your camera to translate signs into spoken words in real time.</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

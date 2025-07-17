@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>اختبار سريع لإشارات الحروف</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #0d1a4f;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .quiz-box {
+      background-color: #ffffff15;
+      padding: 20px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .sign-img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background-color: white;
+      padding: 10px;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .option-btn {
+      background-color: #1e90ff;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .option-btn:hover {
+      background-color: #005bbb;
+    }
+
+    .feedback {
+      font-size: 1.2rem;
+      margin-top: 15px;
+      min-height: 30px;
+    }
+
+    .score {
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .emoji {
+      font-size: 2rem;
+      margin-left: 5px;
+    }
+
+    .next-btn {
+      margin-top: 15px;
+      background-color: #ffffff;
+      color: #0d1a4f;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .next-btn:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📋 اختبار سريع لإشارات الحروف</h1>
+  <div class="quiz-box">
+    <img src="" alt="Sign" class="sign-img" id="signImage">
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="score">النقاط: <span id="score">0</span> | سؤال <span id="qNum">1</span> من <span id="totalQ">10</span></div>
+    <button class="next-btn" onclick="nextQuestion()">السؤال التالي ⏭️</button>
+  </div>
+
+  <script>
+    const letters = [
+      { letter: "ا", image: "alif.jpg" },
+      { letter: "ب", image: "ba.jpg" },
+      { letter: "ت", image: "Taa.jpg" },
+      { letter: "ث", image: "Tha.jpg" },
+      { letter: "ج", image: "Geem.jpg" },
+      { letter: "ح", image: "7a.jpg" },
+      { letter: "خ", image: "5a.jpg" },
+      { letter: "د", image: "dal.jpg" },
+      { letter: "ذ", image: "dhal.jpg" },
+      { letter: "ر", image: "Raa.jpg" },
+      { letter: "ز", image: "Zeen.jpg" },
+      { letter: "س", image: "Seen.jpg" },
+      { letter: "ش", image: "4een.jpg" },
+      { letter: "ص", image: "Sad.jpg" },
+      { letter: "ض", image: "Dad.jpg" },
+      { letter: "ط", image: "Taah.jpg" },
+      { letter: "ظ", image: "Thah.jpg" },
+      { letter: "ع", image: "3.jpg" },
+      { letter: "غ", image: "8.jpg" },
+      { letter: "ف", image: "Faa.jpg" },
+      { letter: "ق", image: "Qaf.jpg" },
+      { letter: "ك", image: "Kaf.jpg" },
+      { letter: "ل", image: "Lam.jpg" },
+      { letter: "م", image: "Meem.jpg" },
+      { letter: "ن", image: "Noon.jpg" },
+      { letter: "هـ", image: "Haa.jpg" },
+      { letter: "و", image: "Waw.jpg" },
+      { letter: "ي", image: "Yaa.jpg" }
+    ];
+
+    let score = 0;
+    let currentQ = 0;
+    const totalQuestions = 10;
+    let correctAnswer = "";
+
+    document.getElementById("totalQ").innerText = totalQuestions;
+
+    function shuffle(array) {
+      return array.sort(() => 0.5 - Math.random());
+    }
+
+    function showQuestion() {
+      if (currentQ >= totalQuestions) {
+        document.querySelector(".quiz-box").innerHTML = `<h2>🎉 لقد أنهيت الاختبار!</h2><p>درجتك: ${score} من ${totalQuestions}</p>`;
+        return;
+      }
+
+      const questionLetters = shuffle([...letters]);
+      const current = questionLetters[0];
+      correctAnswer = current.letter;
+
+      document.getElementById("signImage").src = current.image;
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("qNum").innerText = currentQ + 1;
+
+      const options = [correctAnswer];
+      while (options.length < 4) {
+        const rand = questionLetters[Math.floor(Math.random() * questionLetters.length)].letter;
+        if (!options.includes(rand)) options.push(rand);
+      }
+
+      const shuffledOptions = shuffle(options);
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.innerHTML = "";
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(choice) {
+      const feedback = document.getElementById("feedback");
+      if (choice === correctAnswer) {
+        score++;
+        feedback.innerHTML = "✅ إجابة صحيحة! <span class='emoji'>😄</span>";
+        document.getElementById("score").innerText = score;
+      } else {
+        feedback.innerHTML = `❌ خطأ! الإجابة الصحيحة: ${correctAnswer} <span class='emoji'>😢</span>`;
+      }
+
+      const buttons = document.querySelectorAll(".option-btn");
+      buttons.forEach(btn => btn.disabled = true);
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      showQuestion();
+    }
+
+    window.onload = showQuestion;
+  </script>
+</body>
+</html>
